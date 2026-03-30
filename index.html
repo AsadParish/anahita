@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Anahita Pictures</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Cinzel:wght@400;600&family=Noto+Sans+Bengali:wght@300;400&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #0d0c0b;
+      --surface: #141210;
+      --card-bg: #1a1714;
+      --border: #2e2820;
+      --gold: #c9a96e;
+      --gold-light: #e0c898;
+      --gold-dim: #8a6f42;
+      --text: #e8dfd0;
+      --text-dim: #8a7e6e;
+      --text-muted: #4a4035;
+      --accent: #c9a96e;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      min-height: 100vh;
+    }
+
+    /* HEADER */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(13,12,11,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+    }
+
+    .logo {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .logo-main {
+      font-family: 'Cinzel', serif;
+      font-size: 1.45rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      color: var(--gold);
+      line-height: 1;
+    }
+
+    .logo-sub {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.35em;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      font-weight: 300;
+    }
+
+    .header-ornament {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      font-family: 'Cinzel', serif;
+    }
+
+    .header-ornament span {
+      color: var(--gold-dim);
+    }
+
+    /* STATS BAR */
+    .stats-bar {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0.6rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      color: var(--text-dim);
+      font-family: 'Cinzel', serif;
+    }
+
+    .stats-bar .stat {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .stats-bar .stat strong {
+      color: var(--gold);
+    }
+
+    .divider-dot {
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: var(--border);
+    }
+
+    /* MAIN */
+    main {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem 4rem;
+    }
+
+    /* GRID */
+    .gallery-grid {
+      columns: 4;
+      column-gap: 14px;
+      animation: fadeIn 0.5s ease;
+    }
+
+    @media (max-width: 1200px) { .gallery-grid { columns: 3; } }
+    @media (max-width: 800px) { .gallery-grid { columns: 2; } }
+    @media (max-width: 480px) { .gallery-grid { columns: 1; } }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* CARD */
+    .photo-card {
+      break-inside: avoid;
+      margin-bottom: 14px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+
+    .photo-card:hover {
+      border-color: var(--gold-dim);
+      transform: translateY(-2px);
+    }
+
+    .photo-card img {
+      display: block;
+      width: 100%;
+      height: auto;
+      transition: opacity 0.4s;
+    }
+
+    .photo-card .overlay {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: linear-gradient(to top, rgba(10,9,8,0.88) 0%, transparent 100%);
+      padding: 1.5rem 0.85rem 0.75rem;
+      opacity: 0;
+      transform: translateY(4px);
+      transition: opacity 0.3s, transform 0.3s;
+    }
+
+    .photo-card:hover .overlay {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .photo-date {
+      font-family: 'Cinzel', serif;
+      font-size: 0.62rem;
+      letter-spacing: 0.18em;
+      color: var(--gold);
+    }
+
+    /* EMPTY STATE */
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 400px;
+      text-align: center;
+      gap: 1rem;
+      color: var(--text-muted);
+    }
+
+    .empty-icon {
+      font-size: 3rem;
+      opacity: 0.3;
+    }
+
+    .empty-state h2 {
+      font-family: 'Cinzel', serif;
+      font-size: 1.1rem;
+      letter-spacing: 0.2em;
+      color: var(--text-dim);
+      font-weight: 400;
+    }
+
+    .empty-state p {
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+      max-width: 380px;
+      line-height: 1.7;
+      color: var(--text-muted);
+      font-family: 'Noto Sans Bengali', sans-serif;
+    }
+
+    /* ORNAMENT LINE */
+    .ornament-line {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 1.5rem 0 2rem;
+    }
+
+    .ornament-line::before,
+    .ornament-line::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--border));
+    }
+
+    .ornament-line::after {
+      background: linear-gradient(to left, transparent, var(--border));
+    }
+
+    .ornament-line span {
+      font-size: 0.6rem;
+      letter-spacing: 0.4em;
+      color: var(--text-muted);
+      font-family: 'Cinzel', serif;
+      text-transform: uppercase;
+    }
+
+    /* PAGINATION */
+    .pagination {
+      margin-top: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .page-btn {
+      min-width: 38px;
+      height: 38px;
+      padding: 0 0.75rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      font-family: 'Cinzel', serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      transition: all 0.25s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .page-btn:hover:not(:disabled) {
+      border-color: var(--gold-dim);
+      color: var(--gold);
+      background: rgba(201, 169, 110, 0.06);
+    }
+
+    .page-btn.active {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: rgba(201, 169, 110, 0.1);
+    }
+
+    .page-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    .page-info {
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      color: var(--text-muted);
+      text-align: center;
+      margin-top: 0.75rem;
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 1.5rem 2rem;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      font-family: 'Cinzel', serif;
+    }
+
+    footer span {
+      color: var(--gold-dim);
+    }
+
+    /* LIGHTBOX */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      background: rgba(8,7,6,0.95);
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .lightbox.open { display: flex; }
+
+    .lightbox img {
+      max-width: 90vw;
+      max-height: 85vh;
+      object-fit: contain;
+      border: 1px solid var(--border);
+      box-shadow: 0 0 80px rgba(201,169,110,0.08);
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 1.5rem; right: 2rem;
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      font-size: 1.2rem;
+      width: 38px; height: 38px;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .lightbox-close:hover { border-color: var(--gold-dim); color: var(--gold); }
+
+    .lightbox-date {
+      position: absolute;
+      bottom: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Cinzel', serif;
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      color: var(--gold-dim);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">
+      <div class="logo-main">ANAHITA PICTURES</div>
+      <div class="logo-sub">Photography Archive</div>
+    </div>
+    <div class="header-ornament">
+      <span>✦</span> GALLERY <span>✦</span>
+    </div>
+  </header>
+
+  <div class="stats-bar">
+    <div class="stat">মোট ছবি: <strong id="totalCount">—</strong></div>
+    <div class="divider-dot"></div>
+    <div class="stat">পেইজ: <strong id="pageInfo">—</strong></div>
+    <div class="divider-dot"></div>
+    <div class="stat">প্রতি পেইজে: <strong id="perPageInfo">—</strong></div>
+  </div>
+
+  <main>
+    <div class="ornament-line"><span>✦ সংগ্রহ ✦</span></div>
+
+    <div class="gallery-grid" id="galleryGrid"></div>
+
+    <div class="empty-state" id="emptyState" style="display:none;">
+      <div class="empty-icon">◈</div>
+      <h2>ANAHITA PICTURES</h2>
+      <p>এখনো কোনো ছবি নেই। <code>assets</code> ফোল্ডারে ছবি যোগ করলে এখানে দেখা যাবে।</p>
+    </div>
+
+    <div id="paginationWrap">
+      <div class="pagination" id="paginationControls"></div>
+      <div class="page-info" id="pageRangeInfo"></div>
+    </div>
+  </main>
+
+  <footer>
+    <span>✦</span> &nbsp; ANAHITA PICTURES &nbsp; <span>✦</span> &nbsp; Photography Archive &nbsp; <span>✦</span>
+  </footer>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lightboxClose">✕</button>
+    <img id="lightboxImg" src="" alt=""/>
+    <div class="lightbox-date" id="lightboxDate"></div>
+  </div>
+
+  <script>
+    // ─── CONFIG ───────────────────────────────────────────────────────────────
+    // এখানে assets ফোল্ডারের ছবির নামগুলো তালিকা করতে হবে।
+    // বা একটি JSON ফাইল থেকে লোড করা যাবে।
+    // ফরম্যাট: { filename: "xxx.jpg", uploadedAt: "YYYY-MM-DD" }
+    // ─────────────────────────────────────────────────────────────────────────
+
+    const IMAGES_PER_PAGE = 24;
+    const ASSETS_FOLDER = "assets/";
+
+    // ─── DEMO DATA ────────────────────────────────────────────────────────────
+    // বাস্তব ব্যবহারে এই অংশটি একটি manifest.json ফাইল থেকে লোড করুন
+    // যেমন: fetch('assets/manifest.json').then(r => r.json()).then(init)
+    // manifest.json format: [{"filename":"photo1.jpg","uploadedAt":"2025-03-20"}, ...]
+    // ─────────────────────────────────────────────────────────────────────────
+
+    let allImages = [];
+    let currentPage = 1;
+
+    function formatDate(dateStr) {
+      const d = new Date(dateStr);
+      return d.toLocaleDateString('bn-BD', {
+        year: 'numeric', month: 'long', day: 'numeric'
+      });
+    }
+
+    function renderGallery() {
+      const grid = document.getElementById('galleryGrid');
+      const emptyState = document.getElementById('emptyState');
+      const paginationWrap = document.getElementById('paginationWrap');
+
+      grid.innerHTML = '';
+
+      if (allImages.length === 0) {
+        emptyState.style.display = 'flex';
+        paginationWrap.style.display = 'none';
+        document.getElementById('totalCount').textContent = '০';
+        document.getElementById('pageInfo').textContent = '—';
+        document.getElementById('perPageInfo').textContent = '—';
+        return;
+      }
+
+      emptyState.style.display = 'none';
+      paginationWrap.style.display = 'block';
+
+      const totalPages = Math.ceil(allImages.length / IMAGES_PER_PAGE);
+      if (currentPage > totalPages) currentPage = 1;
+
+      const start = (currentPage - 1) * IMAGES_PER_PAGE;
+      const end = Math.min(start + IMAGES_PER_PAGE, allImages.length);
+      const pageImages = allImages.slice(start, end);
+
+      document.getElementById('totalCount').textContent = toBengaliNum(allImages.length);
+      document.getElementById('pageInfo').textContent = toBengaliNum(currentPage) + ' / ' + toBengaliNum(totalPages);
+      document.getElementById('perPageInfo').textContent = toBengaliNum(IMAGES_PER_PAGE);
+
+      pageImages.forEach((img, i) => {
+        const card = document.createElement('div');
+        card.className = 'photo-card';
+        card.style.animationDelay = (i * 0.03) + 's';
+
+        const imgEl = document.createElement('img');
+        imgEl.src = ASSETS_FOLDER + img.filename;
+        imgEl.alt = img.filename;
+        imgEl.loading = 'lazy';
+
+        const overlay = document.createElement('div');
+        overlay.className = 'overlay';
+
+        const dateEl = document.createElement('div');
+        dateEl.className = 'photo-date';
+        dateEl.textContent = formatDate(img.uploadedAt);
+
+        overlay.appendChild(dateEl);
+        card.appendChild(imgEl);
+        card.appendChild(overlay);
+
+        card.addEventListener('click', () => openLightbox(img));
+        grid.appendChild(card);
+      });
+
+      renderPagination(totalPages);
+
+      document.getElementById('pageRangeInfo').textContent =
+        'দেখাচ্ছে ' + toBengaliNum(start + 1) + '–' + toBengaliNum(end) +
+        ' / মোট ' + toBengaliNum(allImages.length) + ' টি ছবি';
+    }
+
+    function toBengaliNum(n) {
+      return String(n).replace(/[0-9]/g, d => '০১২৩৪৫৬৭৮৯'[d]);
+    }
+
+    function renderPagination(totalPages) {
+      const controls = document.getElementById('paginationControls');
+      controls.innerHTML = '';
+
+      if (totalPages <= 1) return;
+
+      const addBtn = (label, page, isDisabled, isActive) => {
+        const btn = document.createElement('button');
+        btn.className = 'page-btn' + (isActive ? ' active' : '');
+        btn.textContent = label;
+        btn.disabled = isDisabled;
+        btn.addEventListener('click', () => {
+          if (page !== null) {
+            currentPage = page;
+            renderGallery();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }
+        });
+        controls.appendChild(btn);
+      };
+
+      addBtn('«', 1, currentPage === 1, false);
+      addBtn('‹', currentPage - 1, currentPage === 1, false);
+
+      let pages = new Set();
+      pages.add(1);
+      pages.add(totalPages);
+      for (let p = Math.max(1, currentPage - 2); p <= Math.min(totalPages, currentPage + 2); p++) {
+        pages.add(p);
+      }
+
+      let sorted = [...pages].sort((a, b) => a - b);
+      let prev = 0;
+      sorted.forEach(p => {
+        if (p - prev > 1) {
+          const ellipsis = document.createElement('button');
+          ellipsis.className = 'page-btn';
+          ellipsis.textContent = '…';
+          ellipsis.disabled = true;
+          controls.appendChild(ellipsis);
+        }
+        addBtn(toBengaliNum(p), p, false, p === currentPage);
+        prev = p;
+      });
+
+      addBtn('›', currentPage + 1, currentPage === totalPages, false);
+      addBtn('»', totalPages, currentPage === totalPages, false);
+    }
+
+    function openLightbox(img) {
+      document.getElementById('lightboxImg').src = ASSETS_FOLDER + img.filename;
+      document.getElementById('lightboxDate').textContent = formatDate(img.uploadedAt);
+      document.getElementById('lightbox').classList.add('open');
+    }
+
+    document.getElementById('lightboxClose').addEventListener('click', () => {
+      document.getElementById('lightbox').classList.remove('open');
+    });
+
+    document.getElementById('lightbox').addEventListener('click', (e) => {
+      if (e.target === document.getElementById('lightbox')) {
+        document.getElementById('lightbox').classList.remove('open');
+      }
+    });
+
+    // ─── LOAD IMAGES FROM manifest.json ──────────────────────────────────────
+    // assets/manifest.json থেকে ছবি লোড করার চেষ্টা করবে।
+    // যদি না পাওয়া যায়, empty state দেখাবে।
+    // ─────────────────────────────────────────────────────────────────────────
+    fetch(ASSETS_FOLDER + 'manifest.json')
+      .then(r => {
+        if (!r.ok) throw new Error('manifest.json পাওয়া যায়নি');
+        return r.json();
+      })
+      .then(data => {
+        allImages = data.sort((a, b) => new Date(b.uploadedAt) - new Date(a.uploadedAt));
+        renderGallery();
+      })
+      .catch(() => {
+        // manifest.json নেই — empty state দেখাও
+        allImages = [];
+        renderGallery();
+      });
+  </script>
+</body>
+</html>
